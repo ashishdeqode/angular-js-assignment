@@ -1,0 +1,104 @@
+<!-- Search bar div start -->
+<div class="p-5">
+  <mat-grid-list cols="1" rowHeight="50">
+    <mat-grid-tile>
+      <p class="text-light">You are searching <b>User</b>. Go to <a class="text-decoration-none text-warning"
+          routerLink="/repo"><b>Repo</b></a></p>
+    </mat-grid-tile>
+    <mat-grid-tile class="px-5">
+      <div class="input-group w-50">
+        <input class="form-control" (keyup.enter)="searchUser()" (search)="clearSearch()" [(ngModel)]="searchText"
+          type="search" name="" id="" placeholder="Search user">
+        <button class="btn btn-dark input-group-append" (click)="searchUser()">Search</button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<!-- Search bar div end -->
+
+<div class="row d-flex justify-content-center">
+  <div class="col-10 px-5">
+    <!-- api response loop div start -->
+    <mat-card class="mb-3" *ngFor="let user of userData | paginate: { itemsPerPage: perPageLimit, currentPage: currentPage, totalItems: totalRecords }">
+    <!-- api response loop div start -->
+    <div class="row">
+      <div class="col-1 d-flex justify-content-end p-0">
+        <a class="text-decoration-none" [href]="user.html_url" target="_blank">
+          <img style="width: 30px; height: 30px; border-radius: 50%;" [src]="user.avatar_url" alt="Avatar">
+        </a>
+      </div>
+      <div class="col-11">
+        <a class="text-decoration-none" [href]="user.html_url" target="_blank">
+          <h4 class="text-primary">{{user.name}}</h4>
+        </a>
+        <span *ngIf="user.bio">{{user.bio}} <br></span>
+        <span class="text-secondary" style="font-size: 14px;">Member since: {{user.created_at | date}}</span><br>
+        <span class="text-secondary" style="font-size: 14px;"> Followers: {{user.followers}}</span>
+        <span> | </span>
+        <span class="text-secondary" style="font-size: 14px;"> Following: {{user.following}}</span>
+        <span> | </span>
+        <span class="text-secondary" style="font-size: 14px;"> Repos: {{user.public_repos}}</span>
+      </div>
+    </div>
+    <!-- api response loop div end -->
+    </mat-card>
+    <!-- api response loop div end -->
+
+    <!-- pagination div star -->
+    <div class="row" *ngIf="!loading && userData.length">
+      <div class="col-12">
+        <!-- <pagination-controls (pageChange)="currentPage = $event; searchUser();"></pagination-controls> -->
+        <mat-paginator 
+          [pageIndex]="currentPage - 1" 
+          [length]="totalRecords" 
+          [pageSize]="perPageLimit"
+          [pageSizeOptions]="[5, 10, 25, 100]" 
+          (page)="pageChange($event)" 
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+    <!-- pagination div end -->
+
+    <!-- loader div start -->
+    <div *ngIf="loading" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+    <!-- loader div end -->
+
+    <!-- search watermark div start -->
+    <div *ngIf="!loading && !userData.length && !noDataError && !serverError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-user fa-5x" style="color: rgb(221, 221, 221);"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 style="color: rgb(221, 221, 221);">SEARCH</h4>
+      </div>
+    </div>
+    <!-- search watermark div end -->
+
+    <!-- No data error message div start -->
+    <div *ngIf="!loading && !userData.length && noDataError && !serverError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-exclamation-circle fa-5x"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 class="text-danger">No user found!</h4>
+      </div>
+    </div>
+    <!-- No data error message div end -->
+
+    <!-- Server error message div start -->
+    <div *ngIf="serverError && !noDataError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-exclamation-circle fa-5x"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 class="text-danger">Failed to fetch data!</h4>
+      </div>
+    </div>
+    <!-- Server error message div end -->
+  </div>
+</div>

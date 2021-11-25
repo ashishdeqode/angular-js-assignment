@@ -1,0 +1,102 @@
+<!-- Search bar div start -->
+<div class="p-5">
+  <mat-grid-list cols="1" rowHeight="50">
+    <mat-grid-tile>
+      <p class="text-light">You are searching <b>Repo</b>. Go to <a class="text-decoration-none text-warning"
+          routerLink="/user"><b>User</b></a></p>
+    </mat-grid-tile>
+    <mat-grid-tile class="px-5">
+      <div class="input-group w-50">
+        <input class="form-control" (keyup.enter)="searchRepo()" (search)="clearSearch()" [(ngModel)]="searchText"
+          type="search" name="" id="" placeholder="Search repo">
+        <button class="btn btn-dark input-group-append" (click)="searchRepo()">Search</button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<!-- Search bar div end -->
+
+<div class="row d-flex justify-content-center">
+  <div class="col-10 px-5">
+    <!-- api response loop div start -->
+    <mat-card class="mb-3"
+      *ngFor="let repo of repoData | paginate: { itemsPerPage: perPageLimit, currentPage: currentPage, totalItems: totalRecords }">
+      <div class="row">
+        <div class="col-1 d-flex justify-content-end p-0"> <i class="fab fa-git-alt text-secondary"></i> </div>
+        <div class="col-11">
+          <a class="text-decoration-none" [href]="repo.html_url" target="_blank">
+            <h4 class="text-primary">{{repo.full_name}}</h4>
+          </a>
+          <span>{{repo.description}}</span><br>
+          <span *ngIf="repo.topics.length > 0">
+            <span *ngFor="let topic of repo.topics" class="badge badge-pill mb-1 bg-warning"
+              style="margin-right: 5px;">{{topic}}</span>
+            <br>
+          </span>
+          <span class="text-secondary" style="font-size: 14px;"> <i class="far fa-star"></i> {{repo.stargazers_count |
+            shortNumber}}</span>
+          <span> | </span>
+          <span class="text-secondary" style="font-size: 14px;"> Owner: {{repo.owner.login}}</span>
+        </div>
+      </div>
+    </mat-card>
+    <!-- api response loop div end -->
+
+    <!-- pagination div star -->
+    <div class="row" *ngIf="!loading && repoData.length">
+      <div class="col-12">
+        <!-- <pagination-controls (pageChange)="currentPage = $event; searchRepo();"></pagination-controls> -->
+        <mat-paginator 
+          [pageIndex]="currentPage - 1" 
+          [length]="totalRecords" 
+          [pageSize]="perPageLimit"
+          [pageSizeOptions]="[5, 10, 25, 100]" 
+          (page)="pageChange($event)" 
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+    <!-- pagination div end -->
+
+    <!-- loader div start -->
+    <div *ngIf="loading" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+    <!-- loader div end -->
+
+    <!-- search watermark div start -->
+    <div *ngIf="!loading && !repoData.length && !noDataError && !serverError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fab fa-git-alt fa-5x" style="color: rgb(221, 221, 221);"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 style="color: rgb(221, 221, 221);">SEARCH</h4>
+      </div>
+    </div>
+    <!-- search watermark div end -->
+
+    <!-- No data error message div start -->
+    <div *ngIf="!loading && !repoData.length && noDataError && !serverError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-exclamation-circle fa-5x"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 class="text-danger">No repo found!</h4>
+      </div>
+    </div>
+    <!-- No data error message div end -->
+
+    <!-- Server error message div start -->
+    <div *ngIf="serverError && !noDataError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-exclamation-circle fa-5x"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 class="text-danger">Failed to fetch data!</h4>
+      </div>
+    </div>
+    <!-- Server error message div end -->
+  </div>
+</div>
