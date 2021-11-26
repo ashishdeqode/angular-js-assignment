@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GithubApiService } from 'src/app/services/github-api.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-user',
@@ -24,7 +24,7 @@ export class UserComponent {
   userData: Array<any> = [];
 
   constructor(
-    private gitService: GithubApiService
+    private gitService: ApiService
   ) { }
 
   // to search user

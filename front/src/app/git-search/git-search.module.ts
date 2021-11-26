@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { GitSearchRoutingModule } from './git-search-routing.module';
-import { RepoComponent } from './repo/repo.component';
+import { ProjectComponent } from './project/project.component';
 import { UserComponent } from './user/user.component';
 import { FormsModule } from '@angular/forms';
 import { ShortNumberPipe } from '../pipes/short-number.pipe';
@@ -17,7 +17,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
-    RepoComponent,
+    ProjectComponent,
     UserComponent,
     ShortNumberPipe
   ],

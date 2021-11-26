@@ -12,14 +12,14 @@ interface serverResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class GithubApiService {
+export class ApiService {
   env = environment;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  searchGitRepo(queryParams: any) {
+  searchGitProject(queryParams: any) {
     return this.http.get(`${this.env.apiBaseUrl}/github/search_repo`, { params: queryParams })
       .pipe(map(response => response as serverResponse));
   }

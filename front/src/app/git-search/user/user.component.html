@@ -3,7 +3,7 @@
   <mat-grid-list cols="1" rowHeight="50">
     <mat-grid-tile>
       <p class="text-light">You are searching <b>User</b>. Go to <a class="text-decoration-none text-warning"
-          routerLink="/repo"><b>Repo</b></a></p>
+          routerLink="/project"><b>Project</b></a></p>
     </mat-grid-tile>
     <mat-grid-tile class="px-5">
       <div class="input-group w-50">
@@ -37,7 +37,7 @@
         <span> | </span>
         <span class="text-secondary" style="font-size: 14px;"> Following: {{user.following}}</span>
         <span> | </span>
-        <span class="text-secondary" style="font-size: 14px;"> Repos: {{user.public_repos}}</span>
+        <span class="text-secondary" style="font-size: 14px;"> Projects: {{user.public_projects}}</span>
       </div>
     </div>
     <!-- api response loop div end -->

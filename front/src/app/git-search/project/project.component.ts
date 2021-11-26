@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { GithubApiService } from 'src/app/services/github-api.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-repo',
-  templateUrl: './repo.component.html',
-  styleUrls: ['./repo.component.scss']
+  selector: 'app-project',
+  templateUrl: './project.component.html',
+  styleUrls: ['./project.component.scss']
 })
-export class RepoComponent {
+export class ProjectComponent {
 
   // to handle error messages
   loading: boolean = false;
@@ -22,19 +22,19 @@ export class RepoComponent {
   totalRecords: number = 0;
 
   // to store api response data
-  repoData: Array<any> = [];
+  projectData: Array<any> = [];
 
   constructor(
-    private gitService: GithubApiService
+    private gitService: ApiService
   ) { }
 
-  // to search repo
-  searchRepo() {
+  // to search project
+  searchProject() {
     if (this.searchText.trim().length == 0) {
       return;
     }
 
-    this.repoData = [];
+    this.projectData = [];
     this.loading = true;
     this.noDataError = false;
     this.serverError = false;
@@ -45,12 +45,12 @@ export class RepoComponent {
       limit: this.perPageLimit
     };
 
-    this.gitService.searchGitRepo(params).subscribe((resp: any) => {
+    this.gitService.searchGitProject(params).subscribe((resp: any) => {
       if (resp.statusCode == 200) {
         this.totalRecords = resp.data.total_count;
-        this.repoData = resp.data.items;
+        this.projectData = resp.data.items;
         this.loading = false;
-        if (this.repoData.length == 0) {
+        if (this.projectData.length == 0) {
           this.noDataError = true;
         }
       } else {
@@ -65,7 +65,7 @@ export class RepoComponent {
     this.loading = false;
     this.noDataError = false;
     this.serverError = false;
-    this.repoData = [];
+    this.projectData = [];
     this.currentPage = 1;
     this.totalRecords = 0;
   }
@@ -77,17 +77,17 @@ export class RepoComponent {
     // call on next or previous page event
     if (newPage > this.currentPage && event.pageSize === this.perPageLimit) {
       this.currentPage = newPage;
-      this.searchRepo();
+      this.searchProject();
     } else if (newPage < this.currentPage && event.pageSize === this.perPageLimit) {
       this.currentPage = newPage;
-      this.searchRepo();
+      this.searchProject();
     }
 
     // call when page size is changed
     if (event.pageSize !== this.perPageLimit) {
       this.currentPage = 0;
       this.perPageLimit = event.pageSize;
-      this.searchRepo();
+      this.searchProject();
     }
   }
 

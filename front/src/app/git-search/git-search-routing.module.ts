@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RepoComponent } from './repo/repo.component';
+import { ProjectComponent } from './project/project.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: RepoComponent
+    component: ProjectComponent
   },
   {
-    path: 'repo',
-    component: RepoComponent
+    path: 'project',
+    component: ProjectComponent
   },
   {
     path: 'user',
