@@ -9,11 +9,11 @@ import { ShortNumberPipe } from '../pipes/short-number.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
